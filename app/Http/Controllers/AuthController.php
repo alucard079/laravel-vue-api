@@ -34,8 +34,12 @@ class AuthController extends Controller
             if(! auth()->attempt($request->validated())){
                 return response()->json(['error' => 'Wrong credentials'], 401);
             }
-    
-            $accessToken = auth()->user()->createToken('authToken')->accessToken;
+            
+            if(\is_null(auth()->user()->email_verified_at))  {
+                return response()->json(['error' => 'Verify your email first'], 400);
+            } else {    
+                $accessToken = auth()->user()->createToken('authToken')->accessToken;
+            }
     
             return response(['user' => auth()->user(), 'access_token' => $accessToken], 200);
         }

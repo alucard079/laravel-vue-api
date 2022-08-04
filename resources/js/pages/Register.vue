@@ -54,7 +54,7 @@
               placeholder="Confirm password"
             ></b-form-input>
 
-            <b-form-invalid-feedback :state="form.password_confirmation_error">
+            <b-form-invalid-feedback :state="form.password_confirmation_state">
                 {{form.password_confirmation_error}}
             </b-form-invalid-feedback>
           </b-form-group>
@@ -118,7 +118,6 @@
         .then(response => {
             this.loading = false;
             let data = response.data;
-            console.log(response);
             if(response.status === 200) {
                 this.$swal({
                     title: 'Success!',

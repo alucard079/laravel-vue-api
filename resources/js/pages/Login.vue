@@ -92,10 +92,10 @@ import Auth from '../Auth.js';
                 this.onSetError('password_error', null, 'password_state');
             }
 
-            if(error.response.status === 401) {
+            if(error.response.status === 401 || error.response.status === 400) {
               this.$swal({
                   title: 'Error!',
-                  text: 'Wrong Credentials!',
+                  text: error.response.data.error,
                   icon: 'error',
               });
             }
