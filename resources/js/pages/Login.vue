@@ -71,7 +71,7 @@ import Auth from '../Auth.js';
             password: this.form.password,
         }
 
-        this.axios.post('http://127.0.0.1:8000/api/login', form)
+        this.axios.post('/api/login', form)
         .then(response => {
           let data = response.data;
           if(response.status === 200) {

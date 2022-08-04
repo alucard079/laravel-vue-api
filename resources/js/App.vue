@@ -13,6 +13,7 @@
             <b-navbar-nav>
               <b-nav-item to="/dashboard">Home</b-nav-item>
               <b-nav-item to="/users">Users</b-nav-item>
+              <b-nav-item to="/permissions">Permissions</b-nav-item>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
@@ -47,7 +48,7 @@ export default {
   },
   methods: {
     logout() {
-      this.axios.post('http://127.0.0.1:8000/api/logout')
+      this.axios.post('/api/logout')
         .then(response => {
             if(response.status === 200) {
               Auth.logout(); //reset local storage
