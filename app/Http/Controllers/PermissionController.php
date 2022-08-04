@@ -30,7 +30,6 @@ class PermissionController extends Controller
      */
     public function allPermission()
     {
-        $permission = new Permission();
         $permissions = Permission::all();
         return response()->json($permissions);  
     }

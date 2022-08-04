@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,8 +42,18 @@ Route::middleware('auth:api', 'verified')->group(function () {
         'destroy'
     ]);
 
+    Route::get('/roles/all', [RoleController::class, 'allRole'])->name('all-role');
 
     Route::resource('roles', RoleController::class)->only([
+        'index',
+        'store',
+        'show',
+        'edit',
+        'update',
+        'destroy'
+    ]);
+
+    Route::resource('users', UserController::class)->only([
         'index',
         'store',
         'show',

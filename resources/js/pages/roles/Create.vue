@@ -2,7 +2,7 @@
     <div class="mt-5">
         <b-breadcrumb>
             <b-breadcrumb-item text="Roles" to="/roles"></b-breadcrumb-item>
-            <b-breadcrumb-item text="Create Role" to="/roles/create" active></b-breadcrumb-item>
+            <b-breadcrumb-item text="Create Role" active></b-breadcrumb-item>
         </b-breadcrumb>
         <b-card>
             <div class="d-flex justify-content-start align-items-center">

@@ -25,6 +25,17 @@ class RoleController extends Controller
     }
 
     /**
+     * Display a listing of the roles.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function allRole()
+    {
+        $roles = Role::select('id as value','name')->get();
+        return response()->json($roles);  
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -84,8 +95,7 @@ class RoleController extends Controller
         $role->update([
             'name' => $data['name']
         ]);
-        $role->revokePermissionTo($role->permissions);
-        $role->givePermissionTo($data['permissions']);
+        $role->syncPermissions($data['permissions']);
         if($role) {
             return response()->json([
                 'message' => 'Role Updated Successfully!',
