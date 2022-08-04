@@ -26,6 +26,23 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
 
+                <b-form-group label="Permissions:">
+                    <b-form-checkbox-group :state="form.permissions_state">
+                        <b-form-checkbox
+                            v-for="permission in permissions"
+                            :key="permission.id"
+                            v-model="form.permissions"
+                            :value="permission.name"
+                        >
+                            {{permission.name}}
+                        </b-form-checkbox>
+                    </b-form-checkbox-group>
+                    <!-- <b-form-select v-model="form.permissions" :options="permissions" multiple value="name"></b-form-select> -->
+                     <b-form-invalid-feedback :state="form.permissions_state">
+                        {{form.permissions_error}}
+                    </b-form-invalid-feedback>
+                </b-form-group>
+
                 <b-button type="submit" variant="primary">Submit</b-button>
                 <b-button type="reset" variant="danger">Reset</b-button>
             </b-form>
@@ -41,12 +58,17 @@ export default {
                 name: null,
                 name_state: null,
                 name_error: null,
+
+                permissions: [],
+                permissions_state: null,
+                permissions_error: null,
             },
             role: null,
+            permissions: [],
         }
     },
     created() {
-        this.onGetRole();
+        this.onGetPermissions();
     },
     methods: {
         onSetError(vmodel_error, value, state) {
@@ -58,12 +80,26 @@ export default {
                 this.form[state] = value === null ? true : false;
             }
         },
+        onGetPermissions() {
+            this.axios.get('/api/permissions/all')
+            .then(response => {
+                if(response.status === 200) {
+                    this.permissions = response.data;
+                    this.onGetRole();
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            });
+        },
         onGetRole() {
             this.axios.get(`/api/roles/${this.$route.params.id}/edit`)
             .then(response => {
                 if(response.status === 200) {
                     this.role = response.data;
                     this.form.name = this.role.name
+                    this.form.permissions = this.role.selected_permissions
+                    console.log(this.form);
                 }
             })
             .catch(error => {
@@ -73,6 +109,7 @@ export default {
         onSubmit() {
             let form = {
                 name: this.form.name,
+                permissions: this.form.permissions,
             }
             this.axios.put(`/api/roles/${this.$route.params.id}`, form)
             .then(response => {
@@ -95,6 +132,9 @@ export default {
                     errors.name ?
                         this.onSetError('name_error', errors.name[0], 'name_state'):
                         this.onSetError('name_error', null, 'name_state');
+                    errors.permissions ?
+                        this.onSetError('permissions_error', errors.permissions[0], 'permissions_state'):
+                        this.onSetError('permissions_error', null, 'permissions_state');
                 }
             });
         },
@@ -102,6 +142,10 @@ export default {
             this.form.name = this.role.name;
             this.form.name_state = null;
             this.form.name_error = null;
+
+            this.form.permissions = this.role.selected_permissions;
+            this.form.permissions_state = null;
+            this.form.permissions_error = null;
         },
     },
 }

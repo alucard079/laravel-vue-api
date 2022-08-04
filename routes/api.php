@@ -29,14 +29,18 @@ Route::middleware('auth:api', 'verified')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::get('/permissions/all', [PermissionController::class, 'allPermission'])->name('all-permission');
+
     Route::resource('permissions', PermissionController::class)->only([
         'index',
+        'all',
         'store',
         'show',
         'edit',
         'update',
         'destroy'
     ]);
+
 
     Route::resource('roles', RoleController::class)->only([
         'index',

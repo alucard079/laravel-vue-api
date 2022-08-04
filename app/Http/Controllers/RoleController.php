@@ -31,7 +31,13 @@ class RoleController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $role = Role::create($request->validated());
+        $data = $request->validated();
+        $role = Role::create([
+            'name' => $data['name']
+        ]);
+
+        $role->givePermissionTo($data['permissions']);
+        
         if($role) {
             return response()->json([
                 'message' => 'Role Created Successfully!',
@@ -58,6 +64,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
+        if($role) {
+            $role->selected_permissions = $role->permissions->pluck('name');
+        }
         return response()->json($role);
     }
 
@@ -70,7 +79,12 @@ class RoleController extends Controller
      */
     public function update(UpdateRequest $request, Role $role)
     {
-        $role->update($request->validated());
+        $data = $request->validated();
+        $role->update([
+            'name' => $data['name']
+        ]);
+        $role->revokePermissionTo($role->permissions);
+        $role->givePermissionTo($data['permissions']);
         if($role) {
             return response()->json([
                 'message' => 'Role Updated Successfully!',

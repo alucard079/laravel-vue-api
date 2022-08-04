@@ -23,6 +23,17 @@ class PermissionController extends Controller
         return response()->json($permissions);  
     }
 
+    /**
+     * Display a listing of the permissions.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function allPermission()
+    {
+        $permission = new Permission();
+        $permissions = Permission::all();
+        return response()->json($permissions);  
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -46,7 +57,7 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Permission $permission)
     {
         return response()->json($permission);
     }

@@ -25,6 +25,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|max:150|unique:roles,name,'. $this->role->id,
+            'permissions' => 'array|required',
         ];
     }
 }

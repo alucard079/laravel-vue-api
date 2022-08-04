@@ -70,10 +70,4 @@ export default [
         name: 'roles-edit',
         meta: { requiresAuth: true },
     },
-    {
-        path: '/roles/:id/edit',
-        component: EditRole,
-        name: 'roles-edit',
-        meta: { requiresAuth: true },
-    },
 ];

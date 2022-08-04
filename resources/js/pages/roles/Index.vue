@@ -78,7 +78,7 @@ export default {
                 fields: [{ key: 'name'}, { key: 'actions' }],
             },
             // search: "",
-            roles: []
+            roles: [],
         }
     },
     created() {

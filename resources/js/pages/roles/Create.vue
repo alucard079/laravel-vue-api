@@ -25,6 +25,21 @@
                         {{form.name_error}}
                     </b-form-invalid-feedback>
                 </b-form-group>
+                <b-form-group label="Permissions:">
+                    <b-form-checkbox-group :state="form.permissions_state">
+                        <b-form-checkbox
+                            v-for="permission in permissions"
+                            :key="permission.id"
+                            v-model="form.permissions"
+                            :value="permission.name"
+                        >
+                            {{permission.name}}
+                        </b-form-checkbox>
+                    </b-form-checkbox-group>
+                     <b-form-invalid-feedback :state="form.permissions_state">
+                        {{form.permissions_error}}
+                    </b-form-invalid-feedback>
+                </b-form-group>
 
                 <b-button type="submit" variant="primary">Submit</b-button>
                 <b-button type="reset" variant="danger">Reset</b-button>
@@ -41,22 +56,42 @@ export default {
                 name: null,
                 name_state: null,
                 name_error: null,
+
+                permissions: [],
+                permissions_state: null,
+                permissions_error: null,
             },
+            permissions: [],
         }
+    },
+    created() {
+        this.onGetPermissions();
     },
     methods: {
         onSetError(vmodel_error, value, state) {
-        if(value) {
-            this.form[vmodel_error] = value;
-            this.form[state] = value ? false : true;
-        } else {
-            this.form[vmodel_error] = value;
-            this.form[state] = value === null ? true : false;
-        }
+            if(value) {
+                this.form[vmodel_error] = value;
+                this.form[state] = value ? false : true;
+            } else {
+                this.form[vmodel_error] = value;
+                this.form[state] = value === null ? true : false;
+            }
+        },
+        onGetPermissions() {
+            this.axios.get('/api/permissions/all')
+            .then(response => {
+                if(response.status === 200) {
+                    this.permissions = response.data;
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            });
         },
         onSubmit() {
             let form = {
                 name: this.form.name,
+                permissions: this.form.permissions,
             }
             this.axios.post('/api/roles', form)
             .then(response => {
@@ -79,6 +114,9 @@ export default {
                     errors.name ?
                         this.onSetError('name_error', errors.name[0], 'name_state'):
                         this.onSetError('name_error', null, 'name_state');
+                    errors.permissions ?
+                        this.onSetError('permissions_error', errors.permissions[0], 'permissions_state'):
+                        this.onSetError('permissions_error', null, 'permissions_state');
                 }
             });
         },
@@ -86,6 +124,10 @@ export default {
             this.form.name = null;
             this.form.name_state = null;
             this.form.name_error = null;
+
+            this.form.permissions = null;
+            this.form.permissions_state = null;
+            this.form.permissions_error = null;
         },
     },
 }

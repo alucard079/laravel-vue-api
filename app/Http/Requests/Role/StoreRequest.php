@@ -25,6 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:roles|max:150',
+            'permissions' => 'array|required',
         ];
     }
 }
