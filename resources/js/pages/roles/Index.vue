@@ -48,13 +48,22 @@
                         responsive
                         show-empty
                     >
+                    <template #cell(permissions)="row">
+                        <div>
+                            <b-badge class="mr-2 mb-4 px-3 py-2" pill variant="primary" v-for="(permission, index) in row.item.permissions" :key="index">
+                                {{permission.name}}
+                            </b-badge>
+                        </div>
+                    </template>
                     <template #cell(actions)="row">
-                        <b-button size="sm" class="mr-1" variant="primary" :to="{ name: 'roles-edit', params: { id: row.item.id }}">
-                            <b-icon icon="pencil-square" aria-hidden="true"></b-icon>
-                        </b-button>
-                        <b-button size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
-                            <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-                        </b-button>
+                        <div class="d-flex">
+                            <b-button size="sm" class="mr-1" variant="primary" :to="{ name: 'roles-edit', params: { id: row.item.id }}">
+                                <b-icon icon="pencil-square" aria-hidden="true"></b-icon>
+                            </b-button>
+                            <b-button size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
+                                <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+                            </b-button>
+                        </div>
                     </template>
                     </b-table>
                     <b-pagination
@@ -75,7 +84,7 @@ export default {
     data() {
         return {
             table_options: {
-                fields: [{ key: 'name'}, { key: 'actions' }],
+                fields: [{ key: 'name'}, { key: 'permissions'}, { key: 'actions' }],
             },
             // search: "",
             roles: [],
@@ -88,6 +97,8 @@ export default {
         onGetRoles() {
             this.axios.get('/api/roles/')
             .then(response => {
+                console.log(response)
+
                 if(response.status === 200) {
                     this.roles = response.data;
                 }

@@ -18,6 +18,7 @@ class RoleController extends Controller
     public function index(IndexRequest $request)
     {
         $roles = Role::query()
+        ->with('permissions')
         ->paginate($request->perPage ? $request->perPage : 5)
         ->withQueryString();
         return response()->json($roles);  

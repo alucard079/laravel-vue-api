@@ -41,6 +41,12 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
 
+                <div>
+                    <b-badge class="mr-4 mb-2 px-3 py-2" pill variant="primary" v-for="(permission, index) in form.permissions" :key="index">
+                        {{permission}}
+                    </b-badge>
+                </div>
+
                 <b-button type="submit" variant="primary">Submit</b-button>
                 <b-button type="reset" variant="danger">Reset</b-button>
             </b-form>
