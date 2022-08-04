@@ -33,6 +33,7 @@
 
           <b-button type="submit" variant="primary">Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button to="/register" variant="info">Register</b-button>
         </b-form>
       </div>
     </div>
