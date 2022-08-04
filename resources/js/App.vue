@@ -12,8 +12,9 @@
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-item to="/dashboard">Home</b-nav-item>
-              <b-nav-item to="/users">Users</b-nav-item>
               <b-nav-item to="/permissions">Permissions</b-nav-item>
+              <b-nav-item to="/roles">Roles</b-nav-item>
+              <b-nav-item to="/users">Users</b-nav-item>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->

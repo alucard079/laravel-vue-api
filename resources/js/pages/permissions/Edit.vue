@@ -2,7 +2,7 @@
     <div class="mt-5">
         <b-breadcrumb>
             <b-breadcrumb-item text="Permissions" to="/permissions"></b-breadcrumb-item>
-            <b-breadcrumb-item text="Edit Permission" to="/permissions/create" active></b-breadcrumb-item>
+            <b-breadcrumb-item text="Edit Permission" active></b-breadcrumb-item>
         </b-breadcrumb>
         <b-card>
             <div class="d-flex justify-content-start align-items-center">
