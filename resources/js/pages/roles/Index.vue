@@ -7,7 +7,7 @@
                         <b-col>
                             <div class="d-flex justify-content-between">
                                 <h4>Roles</h4>
-                                <b-button size="sm" class="mr-1 mb-1" variant="primary" to="/roles/create">
+                                <b-button v-if="can('role.create')" size="sm" class="mr-1 mb-1" variant="primary" to="/roles/create">
                                     Add Role
                                 </b-button>
                             </div>
@@ -57,12 +57,15 @@
                     </template>
                     <template #cell(actions)="row">
                         <div class="d-flex">
-                            <b-button size="sm" class="mr-1" variant="primary" :to="{ name: 'roles-edit', params: { id: row.item.id }}">
+                            <b-button v-if="can('role.edit')" size="sm" class="mr-1" variant="primary" :to="{ name: 'roles-edit', params: { id: row.item.id }}">
                                 <b-icon icon="pencil-square" aria-hidden="true"></b-icon>
                             </b-button>
-                            <b-button size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
+                            <b-button v-if="can('role.delete')" size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
                                 <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
                             </b-button>
+                            <span v-if="!can('role.edit') && !can('role.delete')">
+                                No action Available
+                            </span>
                         </div>
                     </template>
                     </b-table>

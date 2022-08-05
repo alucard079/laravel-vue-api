@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Good day {{user.name}} !</h1>
+        <h1>Good day {{user ? user.name : ''}} !</h1>
     </div>
 </template>
 <script>

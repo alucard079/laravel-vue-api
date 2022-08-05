@@ -9,6 +9,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import VueSweetalert2 from 'vue-sweetalert2';
 import Auth from './Auth.js';
+import './helper';
 
 Vue.prototype.auth = Auth;
 Vue.use(VueAxios, axios)

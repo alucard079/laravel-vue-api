@@ -7,7 +7,7 @@
                         <b-col>
                             <div class="d-flex justify-content-between">
                                 <h4>Permissions</h4>
-                                <b-button size="sm" class="mr-1 mb-1" variant="primary" to="/permissions/create">
+                                <b-button v-if="can('permission.create')" size="sm" class="mr-1 mb-1" variant="primary" to="/permissions/create">
                                     Add Permission
                                 </b-button>
                             </div>
@@ -49,12 +49,15 @@
                         show-empty
                     >
                     <template #cell(actions)="row">
-                        <b-button size="sm" class="mr-1" variant="primary" :to="{ name: 'permissions-edit', params: { id: row.item.id }}">
+                        <b-button v-if="can('permission.edit')" size="sm" class="mr-1" variant="primary" :to="{ name: 'permissions-edit', params: { id: row.item.id }}">
                             <b-icon icon="pencil-square" aria-hidden="true"></b-icon>
                         </b-button>
-                        <b-button size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
+                        <b-button v-if="can('permission.delete')" size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
                             <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
                         </b-button>
+                        <span v-if="!can('permission.edit') && !can('permission.delete')">
+                            No action Available
+                        </span>
                     </template>
                     </b-table>
                     <b-pagination
@@ -75,7 +78,7 @@ export default {
     data() {
         return {
             table_options: {
-                fields: [{ key: 'name'}, { key: 'actions' }],
+                fields: [{ key: 'name'}, { key: 'actions'}],
             },
             // search: "",
             permissions: []

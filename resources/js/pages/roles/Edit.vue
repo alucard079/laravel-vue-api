@@ -105,7 +105,6 @@ export default {
                     this.role = response.data;
                     this.form.name = this.role.name
                     this.form.permissions = this.role.selected_permissions
-                    console.log(this.form);
                 }
             })
             .catch(error => {

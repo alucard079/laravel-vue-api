@@ -12,9 +12,9 @@
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-nav-item to="/dashboard">Home</b-nav-item>
-              <b-nav-item to="/permissions">Permissions</b-nav-item>
-              <b-nav-item to="/roles">Roles</b-nav-item>
-              <b-nav-item to="/users">Users</b-nav-item>
+              <b-nav-item v-if="can('permission.view')" to="/permissions">Permissions</b-nav-item>
+              <b-nav-item v-if="can('role.view')" to="/roles">Roles</b-nav-item>
+              <b-nav-item v-if="can('user.view')" to="/users">Users</b-nav-item>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
@@ -36,7 +36,7 @@ export default {
   data() {
       return {
         logged_user: this.auth.user,
-        user: '',
+        user: this.auth.user,
       };
   },
   created() {

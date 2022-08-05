@@ -5,9 +5,9 @@
                 <b-card>
                     <b-row>
                         <b-col>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between" >
                                 <h4>Users</h4>
-                                <b-button size="sm" class="mr-1 mb-1" variant="primary" to="/users/create">
+                                <b-button v-if="can('user.create')" size="sm" class="mr-1 mb-1" variant="primary" to="/users/create">
                                     Add User
                                 </b-button>
                             </div>
@@ -48,13 +48,28 @@
                         responsive
                         show-empty
                     >
+                    <template #cell(role)="row">
+                        <div v-if="row.item.roles.length !== 0">
+                            <b-badge class="mr-4 mb-2 px-3 py-2" pill variant="primary" v-for="role in row.item.roles" :key="role.id">
+                                {{role.name}}
+                            </b-badge>
+                        </div>
+                        <div v-else>
+                            <b-badge class="mr-4 mb-2 px-3 py-2" pill variant="warning">
+                                No role assigned
+                            </b-badge>
+                        </div>
+                    </template>
                     <template #cell(actions)="row">
-                        <b-button size="sm" class="mr-1" variant="primary" :to="{ name: 'users-edit', params: { id: row.item.id }}">
+                        <b-button v-if="can('user.edit')" size="sm" class="mr-1" variant="primary" :to="{ name: 'users-edit', params: { id: row.item.id }}">
                             <b-icon icon="pencil-square" aria-hidden="true"></b-icon>
                         </b-button>
-                        <b-button size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
+                        <b-button v-if="can('user.delete')" size="sm" class="mr-1" variant="danger" @click="onDelete(row.item.id)">
                             <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
                         </b-button>
+                         <span v-if="!can('user.edit') && !can('user.delete')">
+                            No action Available
+                        </span>
                     </template>
                     </b-table>
                     <b-pagination
@@ -75,7 +90,7 @@ export default {
     data() {
         return {
             table_options: {
-                fields: [{ key: 'name'}, { key: 'email'}, { key: 'actions' }],
+                fields: [{ key: 'name'}, { key: 'email'}, { key: 'role'}, { key: 'actions' }],
             },
             // search: "",
             users: []

@@ -23,6 +23,7 @@ class UserController extends Controller
     public function index(IndexRequest $request)
     {
         $users = User::query()
+        ->with('roles')
         ->paginate($request->perPage ? $request->perPage : 5)
         ->withQueryString();
         return response()->json($users); 
@@ -86,7 +87,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $user->role = $user->roles->pluck('id')[0];
+        if(count($user->roles) > 0) {
+            $user->role = $user->roles->pluck('id')[0];
+        }
+        
         return response()->json($user);
     }
 

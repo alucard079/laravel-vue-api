@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Notifications\VerifyUserNotification;
 use Illuminate\Http\Request;
@@ -40,8 +41,13 @@ class AuthController extends Controller
             } else {    
                 $accessToken = auth()->user()->createToken('authToken')->accessToken;
             }
-    
-            return response(['user' => auth()->user(), 'access_token' => $accessToken], 200);
+            $user = auth()->user();
+
+            $permissions = $user->getPermissionsViaRoles();
+            
+            $user->permissions = $permissions->pluck('name');
+
+            return response(['user' => $user, 'access_token' => $accessToken], 200);
         }
     }
 
@@ -62,7 +68,7 @@ class AuthController extends Controller
         ]);
         if($user) {
             $details = [
-                'greeting' => 'Hi, ' . $user->firstname,
+            'greeting' => 'Hi, ' . $user->firstname,
                 'body' => 'We received your registration to our system.',
                 'below' =>
                     'Click the button, to verify your email',
