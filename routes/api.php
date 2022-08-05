@@ -56,6 +56,7 @@ Route::middleware('auth:api', 'verified')->group(function () {
 
     Route::resource('users', UserController::class)->only([
         'index',
+        'create',
         'store',
         'show',
         'edit',

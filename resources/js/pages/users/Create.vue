@@ -137,10 +137,30 @@ export default {
             .then(response => {
                 if(response.status === 200) {
                     this.roles = response.data;
+                    this.onGetUser();
                 }
             })
             .catch(error => {
                 console.log(error)
+            });
+        },
+        onGetUser() {
+            this.axios.get(`/api/users/create`)
+            .then(response => {})
+            .catch(error => {
+                console.log(error);
+                let response = error.response;
+                if(response.status === 403) {
+                    this.$swal({
+                        title: 'Forbidden!',
+                        text: 'You are not authorized to perform this action.',
+                        icon: 'error',
+                    }).then((res) => {
+                        if(res.isConfirmed) {
+                            this.$router.push('/users');
+                        }
+                    });
+                }
             });
         },
         onSubmit() {
