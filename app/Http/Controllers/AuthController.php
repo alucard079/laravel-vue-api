@@ -68,7 +68,7 @@ class AuthController extends Controller
         ]);
         if($user) {
             $details = [
-            'greeting' => 'Hi, ' . $user->firstname,
+            'greeting' => 'Hi, ' . $user->name,
                 'body' => 'We received your registration to our system.',
                 'below' =>
                     'Click the button, to verify your email',

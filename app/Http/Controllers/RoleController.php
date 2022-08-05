@@ -76,6 +76,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
+        $this->authorize('role.edit');
         if($role) {
             $role->selected_permissions = $role->permissions->pluck('name');
         }
@@ -111,6 +112,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->authorize('role.delete');
+
         $role->delete();
         return response()->json([
             'message'=>'Role Deleted Successfully!'

@@ -108,6 +108,18 @@ export default {
             })
             .catch(error => {
                 console.log(error)
+                let response = error.response;
+                if(response.status === 403) {
+                    this.$swal({
+                        title: 'Forbidden!',
+                        text: 'You are not authorized to perform this action.',
+                        icon: 'error',
+                    }).then((res) => {
+                        if(res.isConfirmed) {
+                            this.$router.push('/dashboard');
+                        }
+                    });
+                }
             });
         },
         onChangeEntries(value) {
@@ -163,6 +175,18 @@ export default {
                     })
                     .catch(error => {
                         console.log(error)
+                        let response = error.response;
+                        if(response.status === 403) {
+                            this.$swal({
+                                title: 'Forbidden!',
+                                text: 'You are not authorized to perform this action.',
+                                icon: 'error',
+                            }).then((res) => {
+                                if(res.isConfirmed) {
+                                    this.$router.push('/dashboard');
+                                }
+                            });
+                        }
                     });
                 }
             })
