@@ -44,15 +44,37 @@ export default {
             },
         }
     },
+    created() {
+        this.onGetPermission();
+    },
     methods: {
         onSetError(vmodel_error, value, state) {
-        if(value) {
-            this.form[vmodel_error] = value;
-            this.form[state] = value ? false : true;
-        } else {
-            this.form[vmodel_error] = value;
-            this.form[state] = value === null ? true : false;
-        }
+            if(value) {
+                this.form[vmodel_error] = value;
+                this.form[state] = value ? false : true;
+            } else {
+                this.form[vmodel_error] = value;
+                this.form[state] = value === null ? true : false;
+            }
+        },
+        onGetPermission() {
+            this.axios.get(`/api/permissions/create`)
+            .then(response => {})
+            .catch(error => {
+                console.log(error);
+                let response = error.response;
+                if(response.status === 403) {
+                    this.$swal({
+                        title: 'Forbidden!',
+                        text: 'You are not authorized to perform this action.',
+                        icon: 'error',
+                    }).then((res) => {
+                        if(res.isConfirmed) {
+                            this.$router.push('/permissions');
+                        }
+                    });
+                }
+            });
         },
         onSubmit() {
             let form = {

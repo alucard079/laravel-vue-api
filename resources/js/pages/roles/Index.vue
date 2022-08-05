@@ -100,8 +100,6 @@ export default {
         onGetRoles() {
             this.axios.get('/api/roles/')
             .then(response => {
-                console.log(response)
-
                 if(response.status === 200) {
                     this.roles = response.data;
                 }

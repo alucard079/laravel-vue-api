@@ -34,7 +34,7 @@ Route::middleware('auth:api', 'verified')->group(function () {
 
     Route::resource('permissions', PermissionController::class)->only([
         'index',
-        'all',
+        'create',
         'store',
         'show',
         'edit',
