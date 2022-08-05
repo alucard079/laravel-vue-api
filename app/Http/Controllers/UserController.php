@@ -87,6 +87,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('user.edit');
+
         if(count($user->roles) > 0) {
             $user->role = $user->roles->pluck('id')[0];
         }
@@ -125,6 +127,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('user.delete');
+
         $user->delete();
         return response()->json([
             'message'=>'User Deleted Successfully!'

@@ -181,11 +181,7 @@ export default {
                                 title: 'Forbidden!',
                                 text: 'You are not authorized to perform this action.',
                                 icon: 'error',
-                            }).then((res) => {
-                                if(res.isConfirmed) {
-                                    this.$router.push('/dashboard');
-                                }
-                            });
+                            })
                         }
                     });
                 }
