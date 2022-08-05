@@ -69,6 +69,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
+        $this->authorize('permission.edit');
         return response()->json($permission);
     }
 
@@ -97,6 +98,8 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
+        $this->authorize('permission.delete');
+
         $permission->delete();
         return response()->json([
             'message'=>'Permission Deleted Successfully!'

@@ -67,7 +67,19 @@ export default {
                 }
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
+                let response = error.response;
+                if(response.status === 403) {
+                    this.$swal({
+                        title: 'Forbidden!',
+                        text: 'You are not authorized to perform this action.',
+                        icon: 'error',
+                    }).then((res) => {
+                        if(res.isConfirmed) {
+                            this.$router.push('/permissions');
+                        }
+                    });
+                }
             });
         },
         onSubmit() {
@@ -90,11 +102,24 @@ export default {
                 }
             })
             .catch(error => {
+                console.log(error);
                 let errors = error.response.data.errors;
+                let response = error.response;
                 if(errors) {
                     errors.name ?
                         this.onSetError('name_error', errors.name[0], 'name_state'):
                         this.onSetError('name_error', null, 'name_state');
+                }
+                if(response.status === 403) {
+                    this.$swal({
+                        title: 'Forbidden!',
+                        text: 'You are not authorized to perform this action.',
+                        icon: 'error',
+                    }).then((res) => {
+                        if(res.isConfirmed) {
+                            this.$router.push('/permissions');
+                        }
+                    });
                 }
             });
         },

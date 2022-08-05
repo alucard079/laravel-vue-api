@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Permission;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Spatie\Permission\Models\Permission;
 
 class IndexRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class IndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('permission.view');
     }
 
     /**
