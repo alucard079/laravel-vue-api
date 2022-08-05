@@ -46,6 +46,7 @@ Route::middleware('auth:api', 'verified')->group(function () {
 
     Route::resource('roles', RoleController::class)->only([
         'index',
+        'create',
         'store',
         'show',
         'edit',
