@@ -48,7 +48,7 @@
                 </div>
 
                 <b-button v-if="!submitting" type="submit" variant="primary">Submit</b-button>
-                        <b-button v-else type="submit" variant="primary">
+                <b-button v-else type="submit" variant="primary">
                     <b-spinner variant="primary" small type="grow" label="Spinning"></b-spinner>
                     Loading...
                 </b-button>

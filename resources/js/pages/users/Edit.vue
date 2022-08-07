@@ -4,7 +4,7 @@
             <b-breadcrumb-item text="Users" to="/users"></b-breadcrumb-item>
             <b-breadcrumb-item text="Create User" active></b-breadcrumb-item>
         </b-breadcrumb>
-        <b-card>
+        <b-card v-if="!processing">
             <div class="d-flex justify-content-start align-items-center">
                 <b-button class="mb-2 mr-3" variant="primary" to="/users">
                     <b-icon icon="arrow-left-circle-fill" aria-hidden="true"></b-icon>
@@ -58,9 +58,17 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
 
-                <b-button type="submit" variant="primary">Submit</b-button>
+                <b-button v-if="!submitting" type="submit" variant="primary">Submit</b-button>
+                <b-button v-else type="submit" variant="primary">
+                    <b-spinner variant="primary" small type="grow" label="Spinning"></b-spinner>
+                    Loading...
+                </b-button>
                 <b-button type="reset" variant="danger">Reset</b-button>
             </b-form>
+        </b-card>
+        <b-card v-else>
+            <b-spinner variant="primary" type="grow" label="Spinning"></b-spinner>
+            <span>Please wait information is loading...</span>
         </b-card>
     </div>
 </template>
@@ -69,6 +77,8 @@
 export default {
     data() {
         return {
+            processing: false,
+            submitting: false,
             form: {
                 name: null,
                 name_state: null,
@@ -112,8 +122,10 @@ export default {
             });
         },
         onGetUser() {
+            this.processing = true;
             this.axios.get(`/api/users/${this.$route.params.id}/edit`)
             .then(response => {
+                this.processing = false;
                 if(response.status === 200) {
                     this.user = response.data;
                     this.form.name = this.user.name
@@ -122,6 +134,7 @@ export default {
                 }
             })
             .catch(error => {
+                this.processing = false;
                 console.log(error)
                 let response = error.response;
                 if(response.status === 403) {
@@ -138,6 +151,7 @@ export default {
             });
         },
         onSubmit() {
+            this.submitting = true;
             let form = {
                 name: this.form.name,
                 email: this.form.email,
@@ -145,6 +159,7 @@ export default {
             }
             this.axios.put(`/api/users/${this.$route.params.id}`, form)
             .then(response => {
+                this.submitting = false;
                 let data = response.data;
                 if(response.status === 200) {
                     this.$swal({
@@ -159,6 +174,7 @@ export default {
                 }
             })
             .catch(error => {
+                this.submitting = false;
                 console.log(error)
                 let errors = error.response.data.errors;
                 let response = error.response;

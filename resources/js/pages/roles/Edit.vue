@@ -4,7 +4,7 @@
             <b-breadcrumb-item text="Roles" to="/roles"></b-breadcrumb-item>
             <b-breadcrumb-item text="Edit Role" active></b-breadcrumb-item>
         </b-breadcrumb>
-        <b-card>
+        <b-card v-if="!processing">
             <div class="d-flex justify-content-start align-items-center">
                 <b-button class="mb-2 mr-3" variant="primary" to="/roles">
                     <b-icon icon="arrow-left-circle-fill" aria-hidden="true"></b-icon>
@@ -49,9 +49,17 @@
                     </b-badge>
                 </div>
 
-                <b-button type="submit" variant="primary">Submit</b-button>
+                <b-button v-if="!submitting" type="submit" variant="primary">Submit</b-button>
+                <b-button v-else type="submit" variant="primary">
+                    <b-spinner variant="primary" small type="grow" label="Spinning"></b-spinner>
+                    Loading...
+                </b-button>
                 <b-button type="reset" variant="danger">Reset</b-button>
             </b-form>
+        </b-card>
+        <b-card v-else>
+            <b-spinner variant="primary" type="grow" label="Spinning"></b-spinner>
+            <span>Please wait information is loading...</span>
         </b-card>
     </div>
 </template>
@@ -60,6 +68,8 @@
 export default {
     data() {
         return {
+            processing: false,
+            submitting: false,
             form: {
                 name: null,
                 name_state: null,
@@ -87,14 +97,17 @@ export default {
             }
         },
         onGetPermissions() {
+            this.processing = true;
             this.axios.get('/api/permissions/all')
             .then(response => {
+                this.processing = false;
                 if(response.status === 200) {
                     this.permissions = response.data;
                     this.onGetRole();
                 }
             })
             .catch(error => {
+                this.processing = false;
                 console.log(error)
             });
         },
@@ -124,12 +137,14 @@ export default {
             });
         },
         onSubmit() {
+            this.submitting = true;
             let form = {
                 name: this.form.name,
                 permissions: this.form.permissions,
             }
             this.axios.put(`/api/roles/${this.$route.params.id}`, form)
             .then(response => {
+                this.submitting = false;
                 let data = response.data;
                 if(response.status === 200) {
                     this.$swal({
@@ -144,6 +159,7 @@ export default {
                 }
             })
             .catch(error => {
+                this.submitting = false;
                 console.log(error)
                 let errors = error.response.data.errors;
                 let response = error.response;
