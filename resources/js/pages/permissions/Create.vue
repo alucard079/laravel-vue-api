@@ -20,6 +20,7 @@
                     :state="form.name_state"
                     type="text"
                     placeholder="Enter name"
+                    :disabled="submitting"
                     ></b-form-input>
                     <b-form-invalid-feedback :state="form.name_state">
                         {{form.name_error}}
@@ -58,6 +59,10 @@ export default {
         this.onGetPermission();
     },
     methods: {
+        onClearError() {
+            this.form.name_state = null;
+            this.form.name_error = null;
+        },
         onSetError(vmodel_error, value, state) {
             if(value) {
                 this.form[vmodel_error] = value;
@@ -91,6 +96,7 @@ export default {
             });
         },
         onSubmit() {
+            this.onClearError();
             this.submitting = true;
             let form = {
                 name: this.form.name,

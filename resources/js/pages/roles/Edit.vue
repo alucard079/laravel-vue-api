@@ -20,6 +20,7 @@
                     :state="form.name_state"
                     type="text"
                     placeholder="Enter name"
+                    :disabled="submitting"
                     ></b-form-input>
                     <b-form-invalid-feedback :state="form.name_state">
                         {{form.name_error}}
@@ -33,6 +34,7 @@
                             :key="permission.id"
                             v-model="form.permissions"
                             :value="permission.name"
+                            :disabled="submitting"
                         >
                             {{permission.name}}
                         </b-form-checkbox>
@@ -87,6 +89,12 @@ export default {
         this.onGetPermissions();
     },
     methods: {
+        onClearErrors() {
+            this.form.name_state = null;
+            this.form.name_error = null;
+            this.form.permissions_state = null;
+            this.form.permissions_error = null;
+        },
         onSetError(vmodel_error, value, state) {
             if(value) {
                 this.form[vmodel_error] = value;
@@ -137,6 +145,7 @@ export default {
             });
         },
         onSubmit() {
+            this.onClearErrors();
             this.submitting = true;
             let form = {
                 name: this.form.name,

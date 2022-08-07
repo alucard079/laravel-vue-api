@@ -13,6 +13,7 @@
               :state="form.name_state"
               type="text"
               placeholder="Enter name"
+              :disabled="processing"
             ></b-form-input>
             <b-form-invalid-feedback :state="form.name_state">
                 {{form.name_error}}
@@ -27,6 +28,7 @@
               :state="form.email_state"
               type="text"
               placeholder="Enter email"
+              :disabled="processing"
             ></b-form-input>
             <b-form-invalid-feedback :state="form.email_state">
                 {{form.email_error}}
@@ -39,6 +41,7 @@
               v-model="form.password"
               :state="form.password_state"
               placeholder="Enter password"
+              :disabled="processing"
             ></b-form-input>
 
             <b-form-invalid-feedback :state="form.password_state">
@@ -52,6 +55,7 @@
               v-model="form.password_confirmation"
               :state="form.password_confirmation_state && form.password_state"
               placeholder="Confirm password"
+              :disabled="processing"
             ></b-form-input>
 
             <b-form-invalid-feedback :state="form.password_confirmation_state && form.password_state">
@@ -59,10 +63,10 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary" v-if="!loading">Submit</b-button>
+          <b-button type="submit" variant="primary" v-if="!processing">Submit</b-button>
           <b-button type="submit" variant="primary" v-else>
             <b-spinner small variant="primary" label="Spinning"></b-spinner>
-            Loading...
+            processing...
           </b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button to="/" variant="info">Login</b-button>
@@ -76,7 +80,7 @@
   export default {
     data() {
       return {
-        loading: false,
+        processing: false,
         form: {
             name: null,
             name_state: null,
@@ -107,7 +111,7 @@
         }
       },
       onSubmit() {
-        this.loading = true;
+        this.processing = true;
         let form = {
             name: this.form.name,
             email: this.form.email,
@@ -117,7 +121,7 @@
 
         this.axios.post('/api/register', form)
         .then(response => {
-            this.loading = false;
+            this.processing = false;
             let data = response.data;
             if(response.status === 200) {
                 this.$swal({
@@ -132,7 +136,7 @@
             }
         })
         .catch(error => {
-            this.loading = false;
+            this.processing = false;
             let errors = error.response.data.errors;
             if(errors) {
               errors.name ?

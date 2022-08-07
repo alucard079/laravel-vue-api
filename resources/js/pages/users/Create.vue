@@ -21,6 +21,7 @@
                     :state="form.name_state"
                     type="text"
                     placeholder="Enter name"
+                    :disabled="submitting"
                     ></b-form-input>
                     <b-form-invalid-feedback :state="form.name_state">
                         {{form.name_error}}
@@ -35,6 +36,7 @@
                     :state="form.email_state"
                     type="text"
                     placeholder="Enter email"
+                    :disabled="submitting"
                     ></b-form-input>
                     <b-form-invalid-feedback :state="form.email_state">
                         {{form.email_error}}
@@ -47,6 +49,7 @@
                     v-model="form.password"
                     :state="form.password_state"
                     placeholder="Enter password"
+                    :disabled="submitting"
                     ></b-form-input>
 
                     <b-form-invalid-feedback :state="form.password_state">
@@ -60,6 +63,7 @@
                     v-model="form.password_confirmation"
                     :state="form.password_confirmation_state && form.password_state"
                     placeholder="Confirm password"
+                    :disabled="submitting"
                     ></b-form-input>
 
                     <b-form-invalid-feedback :state="form.password_confirmation_state && form.password_state">
@@ -73,6 +77,7 @@
                         :options="roles" 
                         :state="form.role_state"
                         text-field="name"
+                        :disabled="submitting"
                     >
                         <template #first>
                             <b-form-select-option :value="null" disabled> Please select an option </b-form-select-option>
@@ -133,6 +138,18 @@ export default {
         this.onGetRoles();
     },
     methods: {
+        onClearErrors() {
+            this.form.name_state = null;
+            this.form.name_error = null;
+            this.form.email_state = null;
+            this.form.email_error = null;
+            this.form.password_state = null;
+            this.form.password_error = null;
+            this.form.password_confirmation_state = null;
+            this.form.password_confirmation_error = null;
+            this.form.role_state = null;
+            this.form.role_error = null;
+        },
         onSetError(vmodel_error, value, state) {
             if(value) {
                 this.form[vmodel_error] = value;
@@ -178,6 +195,7 @@ export default {
             });
         },
         onSubmit() {
+            this.onClearErrors();
             this.submitting = true;
             let form = {
                 name: this.form.name,

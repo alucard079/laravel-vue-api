@@ -12,6 +12,7 @@
               :state="form.email_state"
               type="text"
               placeholder="Enter email"
+              :disabled="processing"
             ></b-form-input>
             <b-form-invalid-feedback :state="form.email_state">
                 {{form.email_error}}
@@ -24,6 +25,7 @@
               v-model="form.password"
               :state="form.password_state"
               placeholder="Enter password"
+              :disabled="processing"
             ></b-form-input>
 
             <b-form-invalid-feedback :state="form.password_state">
@@ -62,6 +64,12 @@ import Auth from '../Auth.js';
       }
     },
     methods: {
+      onClearErrors() {
+        this.form.email_state = null;
+        this.form.email_error = null;
+        this.form.password_state = null;
+        this.form.password_error = null;
+      },
       onSetError(vmodel_error, value, state) {
         if(value) {
             this.form[vmodel_error] = value;
@@ -72,6 +80,7 @@ import Auth from '../Auth.js';
         }
       },
       onSubmit() {
+        this.onClearErrors();
         this.processing = true;
         let form = {
             email: this.form.email,
