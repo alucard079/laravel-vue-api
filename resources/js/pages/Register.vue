@@ -50,12 +50,12 @@
             <b-form-input
               type="password"
               v-model="form.password_confirmation"
-              :state="form.password_confirmation_state"
+              :state="form.password_confirmation_state && form.password_state"
               placeholder="Confirm password"
             ></b-form-input>
 
-            <b-form-invalid-feedback :state="form.password_confirmation_state">
-                {{form.password_confirmation_error}}
+            <b-form-invalid-feedback :state="form.password_confirmation_state && form.password_state">
+              {{form.password_confirmation_error ? form.password_confirmation_error : form.password_error ? form.password_error : ''}}
             </b-form-invalid-feedback>
           </b-form-group>
 
