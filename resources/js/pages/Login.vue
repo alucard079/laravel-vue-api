@@ -31,7 +31,11 @@
             </b-form-invalid-feedback>
           </b-form-group>
 
-          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button v-if="!processing" type="submit" variant="primary">Submit</b-button>
+          <b-button v-else type="submit" variant="primary">
+             <b-spinner variant="primary" small type="grow" label="Spinning"></b-spinner>
+              Loading...
+          </b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button to="/register" variant="info">Register</b-button>
         </b-form>
@@ -45,6 +49,7 @@ import Auth from '../Auth.js';
   export default {
     data() {
       return {
+        processing: false,
         form: {
             email: null,
             email_state: null,
@@ -67,6 +72,7 @@ import Auth from '../Auth.js';
         }
       },
       onSubmit() {
+        this.processing = true;
         let form = {
             email: this.form.email,
             password: this.form.password,
@@ -74,6 +80,7 @@ import Auth from '../Auth.js';
 
         this.axios.post('/api/login', form)
         .then(response => {
+          this.processing = false;
           let data = response.data;
           if(response.status === 200) {
             this.$appEvents.$emit('logged-on');
@@ -82,6 +89,7 @@ import Auth from '../Auth.js';
           }
         })
         .catch(error => {
+            this.processing = false;
             let errors = error.response.data.errors;
             if(errors) {
               errors.email ?

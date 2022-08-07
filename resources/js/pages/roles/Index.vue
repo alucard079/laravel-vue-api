@@ -2,7 +2,7 @@
     <div>
          <b-row class="mt-5">
             <b-col md="12">
-                <b-card>
+                <b-card v-if="!processing">
                     <b-row>
                         <b-col>
                             <div class="d-flex justify-content-between">
@@ -77,6 +77,10 @@
                         @change="onChangePage"
                     ></b-pagination>
                 </b-card>
+                <b-card v-else>
+                    <b-spinner variant="primary" type="grow" label="Spinning"></b-spinner>
+                    <span>Please wait information is loading...</span>
+                </b-card>
             </b-col>
         </b-row>
     </div>
@@ -86,6 +90,7 @@
 export default {
     data() {
         return {
+            processing: false,
             table_options: {
                 fields: [{ key: 'name'}, { key: 'permissions'}, { key: 'actions' }],
             },
@@ -98,13 +103,16 @@ export default {
     },
     methods: {
         onGetRoles() {
+            this.processing = true;
             this.axios.get('/api/roles/')
             .then(response => {
+                this.processing = false;
                 if(response.status === 200) {
                     this.roles = response.data;
                 }
             })
             .catch(error => {
+                this.processing = false;
                 console.log(error)
                 let response = error.response;
                 if(response.status === 403) {
@@ -121,32 +129,38 @@ export default {
             });
         },
         onChangeEntries(value) {
+            this.processing = true;
             const params = {
                 page: 1,
                 perPage: value,
             }
             this.axios.get('/api/roles/', {params})
             .then(response => {
+                this.processing = false;
                 if(response.status === 200) {
                     this.roles = response.data;
                 }
             })
             .catch(error => {
+                this.processing = false;
                 console.log(error)
             });
         },
         onChangePage(value) {
+            this.processing = true;
             const params = {
                 page: value,
                 perPage: this.roles.per_page,
             }
             this.axios.get('/api/roles/', {params})
             .then(response => {
+                this.processing = false;
                 if(response.status === 200) {
                     this.roles = response.data;
                 }
             })
             .catch(error => {
+                this.processing = false;
                 console.log(error)
             });
         },
@@ -159,8 +173,10 @@ export default {
                 confirmButtonText: 'Delete',
             }).then((res) => {
                 if(res.isConfirmed) {
+                    this.processing = true;
                     this.axios.delete(`/api/roles/${id}`)
                     .then(response => {
+                        this.processing = false;
                         let data = response.data;
                         if(response.status === 200) {
                             this.$swal({
@@ -172,6 +188,7 @@ export default {
                         }
                     })
                     .catch(error => {
+                        this.processing = false;
                         console.log(error)
                         let response = error.response;
                         if(response.status === 403) {

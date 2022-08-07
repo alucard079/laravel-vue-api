@@ -62,6 +62,7 @@
           <b-button type="submit" variant="primary" v-if="!loading">Submit</b-button>
           <b-button type="submit" variant="primary" v-else>
             <b-spinner small variant="primary" label="Spinning"></b-spinner>
+            Loading...
           </b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button to="/" variant="info">Login</b-button>
