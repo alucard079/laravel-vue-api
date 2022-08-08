@@ -67,6 +67,7 @@ class AuthController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         if($user) {
+            $accessToken = $user->createToken('authToken')->accessToken;
             $details = [
             'greeting' => 'Hi, ' . $user->name,
                 'body' => 'We received your registration to our system.',
