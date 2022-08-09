@@ -9,6 +9,7 @@
                                 <h4>Permissions</h4>
                                 <b-button
                                     v-if="can('permission.create')"
+                                    pill
                                     size="sm"
                                     class="mr-1 mb-1"
                                     variant="primary"

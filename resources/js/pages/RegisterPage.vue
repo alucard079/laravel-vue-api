@@ -72,10 +72,10 @@
                         </b-form-invalid-feedback>
                     </b-form-group>
 
-                    <b-button v-if="!processing" type="submit" variant="primary"
+                    <b-button v-if="!processing" block pill type="submit" variant="primary"
                         >Submit</b-button
                     >
-                    <b-button v-else type="submit" variant="primary">
+                    <b-button v-else block pill type="submit" variant="primary">
                         <b-spinner
                             small
                             variant="primary"
@@ -83,8 +83,8 @@
                         ></b-spinner>
                         processing...
                     </b-button>
-                    <b-button type="reset" variant="danger">Reset</b-button>
-                    <b-button to="/" variant="info">Login</b-button>
+                    <b-button block pill type="reset" variant="danger">Reset</b-button>
+                    <b-button block pill to="/" variant="info">Login</b-button>
                 </b-form>
             </div>
         </div>

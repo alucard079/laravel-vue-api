@@ -2,7 +2,7 @@
     <div class="mt-5">
         <b-breadcrumb>
             <b-breadcrumb-item text="Users" to="/users"></b-breadcrumb-item>
-            <b-breadcrumb-item text="Create User" active></b-breadcrumb-item>
+            <b-breadcrumb-item text="Edit User" active></b-breadcrumb-item>
         </b-breadcrumb>
         <b-card v-if="!processing">
             <div class="d-flex justify-content-start align-items-center">
@@ -61,10 +61,10 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
 
-                <b-button v-if="!submitting" type="submit" variant="primary"
+                <b-button v-if="!submitting" pill type="submit" variant="primary"
                     >Submit</b-button
                 >
-                <b-button v-else type="submit" variant="primary">
+                <b-button v-else type="submit" pill variant="primary">
                     <b-spinner
                         variant="primary"
                         small
@@ -73,7 +73,7 @@
                     ></b-spinner>
                     Loading...
                 </b-button>
-                <b-button type="reset" variant="danger">Reset</b-button>
+                <b-button type="reset" pill variant="danger">Reset</b-button>
             </b-form>
         </b-card>
         <b-card v-else>

@@ -2,6 +2,13 @@
 
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
+
+@import './abstracts/fonts.scss';
+
 @import './components/auth.scss';
+
+body {
+    font-family: 'Poppins-Regular';
+}
 
 

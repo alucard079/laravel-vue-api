@@ -11882,6 +11882,22 @@ input[type=color].form-control:disabled {
   vertical-align: text-bottom;
 }
 
+@font-face {
+  src: url("/../fonts/Poppins-Light.ttf") format("truetype");
+  font-family: "Poppins-Light";
+}
+@font-face {
+  src: url("/../fonts/Poppins-Regular.ttf") format("truetype");
+  font-family: "Poppins-Regular";
+}
+@font-face {
+  src: url("/../fonts/Poppins-SemiBold.ttf") format("truetype");
+  font-family: "Poppins-SemiBold";
+}
+@font-face {
+  src: url("/../fonts/Poppins-Bold.ttf") format("truetype");
+  font-family: "Poppins-Bold";
+}
 .auth-header {
   font-size: 1.5rem;
   font-weight: 500;
@@ -11900,4 +11916,8 @@ input[type=color].form-control:disabled {
   align-items: center;
   width: 100vw;
   height: 100vh;
+}
+
+body {
+  font-family: "Poppins-Regular";
 }

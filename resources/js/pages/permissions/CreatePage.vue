@@ -34,10 +34,10 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
 
-                <b-button v-if="!submitting" type="submit" variant="primary"
+                <b-button v-if="!submitting" pill type="submit" variant="primary"
                     >Submit</b-button
                 >
-                <b-button v-else type="submit" variant="primary">
+                <b-button v-else pill type="submit" variant="primary">
                     <b-spinner
                         variant="primary"
                         small
@@ -46,7 +46,7 @@
                     ></b-spinner>
                     Loading...
                 </b-button>
-                <b-button type="reset" variant="danger">Reset</b-button>
+                <b-button type="reset" pill variant="danger">Reset</b-button>
             </b-form>
         </b-card>
         <b-card v-else>

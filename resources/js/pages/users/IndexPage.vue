@@ -9,6 +9,7 @@
                                 <h4>Users</h4>
                                 <b-button
                                     v-if="can('user.create')"
+                                    pill
                                     size="sm"
                                     class="mr-1 mb-1"
                                     variant="primary"

@@ -9,6 +9,7 @@
                                 <h4>Roles</h4>
                                 <b-button
                                     v-if="can('role.create')"
+                                    pill
                                     size="sm"
                                     class="mr-1 mb-1"
                                     variant="primary"
