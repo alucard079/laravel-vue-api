@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Good day {{ user ? user.name : "" }} !</h1>
+        <h1 class="mt-3">Good day {{ user ? user.name : "" }} !</h1>
         <b-card title="Google Map">
             <GmapMap
                 :center="{ lat: 10, lng: 10 }"
